@@ -1,0 +1,48 @@
+class ParticipationCountView(View):
+    template_name = 'stacktry/profile.html'
+
+    def get(self, request, user_id):
+        user = get_object_or_404(CustomUser, id=user_id)
+
+        # Get or create ParticipationCount instance for the user
+        participation_count = ParticipationCount.objects.filter(user=user)
+
+        form = ParticipationCountForm()  # No instance argument for GET requests
+        return render(request, self.template_name, {'user': user, 'form': form, 'participation_count': participation_count})
+
+
+    def post(self, request, user_id):
+        user = get_object_or_404(CustomUser, id=user_id)
+
+    # Get or create ParticipationCount instance for the user
+        ParticipationCount.objects.filter(user=user).delete()
+        participation_count = ParticipationCount.objects.create(user=user)
+
+        form = ParticipationCountForm(request.POST, instance=participation_count)
+
+        if form.is_valid():
+        # Update the jiu_jitsu_count field in the participation_count instance
+
+
+        # Save the updated instance
+            participation_count.save()
+
+        # Redirect to the same page where the form was submitted
+            success_url = reverse('stacktry:profile', kwargs={'user_id': participation_count.user.id})
+            return redirect(success_url)
+        else:
+            return render(request, self.template_name, {'user': user, 'form': form, 'participation_count': participation_count})
+
+
+
+class ParticipationCountForm(forms.ModelForm):
+    class Meta:
+        model = ParticipationCount
+        fields = ['user', 'white_jiu_jitsu_count', 'blue_jiu_jitsu_count', 'purple_jiu_jitsu_count', 'brown_jiu_jitsu_count', 'black_jiu_jitsu_count']
+
+    def init(self, args, **kwargs):
+        instance = kwargs.pop('instance', None)
+        super().init(args, **kwargs)
+        self.instance = instance
+        if instance:
+            self.fields['user'].initial = instance.user

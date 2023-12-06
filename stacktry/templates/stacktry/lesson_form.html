@@ -1,0 +1,21 @@
+{% extends 'outlay.html' %}
+{% load static %}
+<head>
+    <title>Lesson create form</title>
+</head>
+
+{% block body%}
+<body>
+    <h1>Create Lesson</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {% if request.user.is_superuser %}
+        <button type="submit">Save Lesson</button>
+        {% endif %}
+    </form>
+    <p></p>
+    <p><a href="{% url 'stacktry:lesson_list' %}" class="btn btn-primary border border-dark">Go back to Iwade schedule</a></p>
+    <p><a href="{% url 'stacktry:bjj_lesson_list' %}" class="btn btn-primary border border-dark">Go back to Kix schedule</a></p>
+</body>
+{% endblock %}
