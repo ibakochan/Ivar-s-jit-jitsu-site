@@ -212,6 +212,8 @@
     </div>
 </div>
 </div>
+<a href="{% url 'stacktry:lesson_update' pk=lesson.pk %}" class="btn btn-success border border-dark">Update Lesson</a>
+
 <p></p>
 <div>
     {% if request.user.is_superuser %}

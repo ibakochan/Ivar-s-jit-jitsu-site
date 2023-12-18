@@ -13,7 +13,7 @@ $(document).ready(function () {
                 console.log(data.updated_counts);
 
                 var originalButtonText = button.text();
-                button.text(originalButtonText + ' +1 参加増やした');
+                button.text(originalButtonText + ' +1 Participation');
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.error('Error:', textStatus, errorThrown);

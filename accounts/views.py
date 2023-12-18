@@ -1,6 +1,7 @@
 from django.contrib.auth import login
 from django.shortcuts import render, redirect
 from .forms import CustomUserCreationForm
+from django.contrib import messages
 
 
 def signup(request):
@@ -11,7 +12,9 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('stacktry:bjj_lesson_list')
+            return redirect('stacktry:profile', user_id=user.id)
     else:
         form = CustomUserCreationForm()
+    if form.errors:
+        messages.error(request, 'Username or Password are invalid. Please try again.')
     return render(request, 'accounts/signup.html', {'form': form})

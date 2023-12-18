@@ -248,7 +248,6 @@ class LessonCreateView(LoginRequiredMixin, View):
     # View for creating a lesson using the Createform.
 
     template_name = 'stacktry/lesson_form.html'
-    success_url = reverse_lazy('stacktry:lesson_list')
 
     def get(self, request, pk=None):
         form = CreateForm()
@@ -272,7 +271,12 @@ class LessonCreateView(LoginRequiredMixin, View):
                 lesson = form.save(commit=False)
                 lesson.owner = self.request.user
                 lesson.save()
-                return redirect(self.success_url)
+                if school == 'Iwade':
+                    return redirect('stacktry:lesson_list')
+                elif school == 'Kix':
+                    return redirect('stacktry:bjj_lesson_list')
+                else:
+                    return redirect('stacktry:lesson_list')
             else:
                 ctx = {'form': form, 'error_message': 'This day and spot already exist.'}
                 return render(request, self.template_name, ctx)
@@ -280,6 +284,48 @@ class LessonCreateView(LoginRequiredMixin, View):
             ctx = {'form': form}
             return render(request, self.template_name, ctx)
 
+
+
+class LessonUpdateView(LoginRequiredMixin, View):
+
+    template_name = 'stacktry/lesson_update.html'
+
+    def get(self, request, pk):
+        lesson = Lesson.objects.get(pk=pk)
+        form = CreateForm(instance=lesson)
+        ctx = {'form': form, 'lesson': lesson}
+        return render(request, self.template_name, ctx)
+
+    def post(self, request, pk):
+        lesson = Lesson.objects.get(pk=pk)
+        form = CreateForm(request.POST, request.FILES or None, instance=lesson)
+
+        if not form.is_valid():
+            ctx = {'form': form, 'lesson': lesson}
+            return render(request, self.template_name, ctx)
+
+        if form.is_valid():
+            day = form.cleaned_data['day']
+            spot = form.cleaned_data['spot']
+            school = form.cleaned_data['school']
+            lesson_spot_used = Lesson.objects.filter(day=day, spot=spot, school=school).exclude(pk=pk).exists()
+
+            if not lesson_spot_used:
+                lesson = form.save(commit=False)
+                lesson.owner = self.request.user
+                lesson.save()
+                if lesson.school == 'Iwade':
+                    return redirect('stacktry:lesson_list')
+                elif lesson.school == 'Kix':
+                    return redirect('stacktry:bjj_lesson_list')
+                else:
+                    return redirect('stacktry:lesson_list')
+            else:
+                ctx = {'form': form, 'lesson': lesson, 'error_message': 'This day and spot already exist.'}
+                return render(request, self.template_name, ctx)
+        else:
+            ctx = {'form': form, 'lesson': lesson}
+            return render(request, self.template_name, ctx)
 
 
 
@@ -404,5 +450,11 @@ class LessonDeleteView(OwnerDeleteView):
     template_name = 'stacktry/button_page.html'
 
     def get_success_url(self):
-        return reverse_lazy('stacktry:lesson_list')
+        lesson = self.get_object()
+        if lesson.school == 'Iwade':
+            return reverse('stacktry:lesson_list')
+        elif lesson.school == 'Kix':
+            return reverse('stacktry:bjj_lesson_list')
+        else:
+            return reverse('stacktry:lesson_list')
 

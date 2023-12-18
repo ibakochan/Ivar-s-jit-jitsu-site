@@ -19,11 +19,11 @@ Triforce Kix schedule!
 {% if request.user.is_superuser %}
 <form method="post" action="{% url 'stacktry:add_users_to_lessons' %}">
     {% csrf_token %}
-    <button type="submit">Put all students into their respective school's lessons</button>
+    <button type="submit" class="btn btn-success border border-dark">Put all students into their respective school's lessons</button>
 </form>
-<a href="{% url 'stacktry:lesson_create' %}">Create a new lesson!</a>
+<p></p>
+<a href="{% url 'stacktry:lesson_create' %}" class="btn btn-primary border border-dark">Create a new lesson!</a>
 {% endif %}
-<link href="{% static 'stacktry/timetable.css' %}" rel="stylesheet">
 <div id="scroll-target" class="container">
 <div class="container">
                 <div class="timetable-img text-center">
@@ -173,7 +173,12 @@ Triforce Kix schedule!
                             </tr>
 
                             <tr>
+                                {% get_lesson_link 'Sunday' 2 'Kix' as lesson_link %}
+                                {% if lesson_link %}
+                                <td style="cursor: pointer;" onclick="window.location.href='{% get_lesson_link 'Sunday' 2 'Kix' %}'">
+                                {% else %}
                                 <td>
+                                {% endif %}
                                     <span class="bg-{% get_lesson_color 'Sunday' 2 'Kix' %} padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">{% get_lesson_title 'Sunday' 2 'Kix'|safe %}</span>
                                     <div class="margin-10px-top font-size14">{% get_lesson_time 'Sunday' 2 'Kix'|safe %}</div>
 
@@ -573,7 +578,12 @@ Triforce Kix schedule!
                                     {% endif %}
                                     </div>
                                 </td>
+                                {% get_lesson_link 'Monday' 5 'Kix' as lesson_link %}
+                                {% if lesson_link %}
+                                <td style="cursor: pointer;" onclick="window.location.href='{% get_lesson_link 'Monday' 5 'Kix' %}'">
+                                {% else %}
                                 <td>
+                                {% endif %}
                                     <span class="bg-{% get_lesson_color 'Monday' 5 'Kix' %} padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">{% get_lesson_title 'Monday' 5 'Kix'|safe %}</span>
                                     <div class="margin-10px-top font-size14">{% get_lesson_time 'Monday' 5 'Kix'|safe %}</div>
 
@@ -586,7 +596,12 @@ Triforce Kix schedule!
                                     {% endif %}
                                     </div>
                                 </td>
+                                {% get_lesson_link 'Tuesday' 5 'Kix' as lesson_link %}
+                                {% if lesson_link %}
+                                <td style="cursor: pointer;" onclick="window.location.href='{% get_lesson_link 'Tuesday' 5 'Kix' %}'">
+                                {% else %}
                                 <td>
+                                {% endif %}
                                     <span class="bg-{% get_lesson_color 'Tuesday' 5 'Kix' %} padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">{% get_lesson_title 'Tuesday' 5 'Kix'|safe %}</span>
                                     <div class="margin-10px-top font-size14">{% get_lesson_time 'Tuesday' 5 'Kix'|safe %}</div>
 
@@ -653,7 +668,12 @@ Triforce Kix schedule!
                                     {% endif %}
                                     </div>
                                 </td>
+                                {% get_lesson_link 'Saturday' 5 'Kix' as lesson_link %}
+                                {% if lesson_link %}
+                                <td style="cursor: pointer;" onclick="window.location.href='{% get_lesson_link 'Saturday' 5 'Kix' %}'">
+                                {% else %}
                                 <td>
+                                {% endif %}
                                     <span class="bg-{% get_lesson_color 'Saturday' 5 'Kix' %} padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">{% get_lesson_title 'Saturday' 5 'Kix'|safe %}</span>
                                     <div class="margin-10px-top font-size14">{% get_lesson_time 'Saturday' 5 'Kix'|safe %}</div>
 

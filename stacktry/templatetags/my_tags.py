@@ -15,6 +15,15 @@ def get_lesson_title(day, spot, school):
     except Lesson.DoesNotExist:
         return ""
 
+
+@register.simple_tag
+def get_lesson_category(day, spot, school):
+    try:
+        lesson = Lesson.objects.get(day=day, spot=spot, school=school)
+        return lesson.category
+    except Lesson.DoesNotExist:
+        return ""
+
 @register.simple_tag
 def get_lesson_picture(day, spot, school):
     try:

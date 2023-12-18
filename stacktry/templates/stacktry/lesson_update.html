@@ -1,12 +1,12 @@
 {% extends 'outlay.html' %}
 {% load static %}
 <head>
-    <title>Lesson create form</title>
+    <title>Lesson update form</title>
 </head>
 
 {% block body%}
 <body>
-    <h1>Create Lesson</h1>
+    <h1>Update Lesson</h1>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}

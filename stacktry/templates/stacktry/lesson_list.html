@@ -17,9 +17,10 @@
 {% if request.user.is_superuser %}
 <form method="post" action="{% url 'stacktry:add_users_to_lessons' %}">
     {% csrf_token %}
-    <button type="submit">Put all students into their respective school's lessons</button>
+    <button type="submit" class="btn btn-success border border-dark">Put all students into their respective school's lessons</button>
 </form>
-<a href="{% url 'stacktry:lesson_create' %}">Create a new lesson!</a>
+<p></p>
+<a href="{% url 'stacktry:lesson_create' %}" class="btn btn-primary border border-dark">Create a new lesson!</a>
 {% endif %}
 <link href="{% static 'stacktry/timetable.css' %}" rel="stylesheet">
 <div id="scroll-target" class="container">
